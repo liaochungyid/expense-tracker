@@ -1,1 +1,68 @@
-<h1>Index page</h1>
+<div class="btn-group container col-9 my-3">
+  <button class="btn btn-outline-dark btn-lg dropdown-toggle text-lg-start" type="button" data-bs-toggle="dropdown"
+    aria-expanded="false">
+    類別
+  </button>
+  <ul class="dropdown-menu container">
+    {{#each CATEGORY}}
+    <li><a class="dropdown-item" href="/{{this}}">{{this}}</a></li>
+    {{/each}}
+  </ul>
+</div>
+
+<div class="container col-12">
+  <div class="row">
+    <span class="d-inline col-3 fs-3">總金額：</span>
+    <span class="d-inline text-end text-warning col-6" style="font-size: 6em;">9600</span>
+  </div>
+  <table class="table table-striped table-hover table-borderless align-middle">
+
+    <tbody>
+      <tr>
+        <td width="10%" class="text-center text-info fs-1"><i class="fas fa-home"></i></td>
+        <td width="35%" class="text-start fs-4">家居物業</td>
+        <td width="30%" class="text-end fs-4">1000</td>
+        <td width="25%" class="text-center fs-4" style="box-shadow: none;">
+          <a class="btn btn-light" href="/">修改</a>
+          <a class="btn btn-light" href="/">刪除</a>
+        </td>
+      </tr>
+      <tr>
+        <td width="10%" class="text-center text-info fs-1"><i class="fas fa-shuttle-van"></i></td>
+        <td width="35%" class="text-start fs-4">交通出行</td>
+        <td width="30%" class="text-end fs-4">2000</td>
+        <td width="25%" class="text-center fs-4" style="box-shadow: none;">
+          <a class="btn btn-light" href="/">修改</a>
+          <a class="btn btn-light" href="/">刪除</a>
+        </td>
+      </tr>
+      <tr>
+        <td width="10%" class="text-center text-info fs-1"><i class="fas fa-grin-beam"></i></td>
+        <td width="35%" class="text-start fs-4">休閒娛樂</td>
+        <td width="30%" class="text-end fs-4">3000</td>
+        <td width="25%" class="text-center fs-4" style="box-shadow: none;">
+          <a class="btn btn-light" href="/">修改</a>
+          <a class="btn btn-light" href="/">刪除</a>
+        </td>
+      </tr>
+      <tr>
+        <td width="10%" class="text-center text-info fs-1"><i class="fas fa-utensils"></i></td>
+        <td width="35%" class="text-start fs-4">餐飲食品</td>
+        <td width="30%" class="text-end fs-4">4000</td>
+        <td width="25%" class="text-center fs-4" style="box-shadow: none;">
+          <a class="btn btn-light" href="/">修改</a>
+          <a class="btn btn-light" href="/">刪除</a>
+        </td>
+      </tr>
+      <tr>
+        <td width="10%" class="text-center text-info fs-1"><i class="fas fa-pen"></i></td>
+        <td width="35%" class="text-start fs-4">其他</td>
+        <td width="30%" class="text-end fs-4">5000</td>
+        <td width="25%" class="text-center fs-4" style="box-shadow: none;">
+          <a class="btn btn-light" href="/">修改</a>
+          <a class="btn btn-light" href="/">刪除</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
