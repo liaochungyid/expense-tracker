@@ -29,6 +29,9 @@ app.get('/users/register', (req, res) => {
   res.render('register')
 })
 
+app.get('/users/logout', (req, res) => {
+  res.redirect('/users/login')
+})
 app.listen(port, () => {
   console.log(`Express is listening on localhost:${port}`)
 })
