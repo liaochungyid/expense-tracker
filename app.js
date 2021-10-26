@@ -1,19 +1,13 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
+const methodOverride = require('method-override')
+const session = require('express-session')
+const flash = require('connect-flash')
 
 if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
 const app = express()
 const port = process.env.PORT
-
-const CATEGORY = {
-  家居物業: "https://fontawesome.com/icons/home?style=solid",
-  交通出行: "https://fontawesome.com/icons/shuttle-van?style=solid",
-  休閒娛樂: "https://fontawesome.com/icons/grin-beam?style=solid",
-  餐飲食品: "https://fontawesome.com/icons/utensils?style=solid",
-  其他: "https://fontawesome.com/icons/pen?style=solid"
-}
-
 
 app.engine('hbs', exphbs({
   defaultLayout: 'main', extname: '.hbs', helpers: {
@@ -24,29 +18,24 @@ app.engine('hbs', exphbs({
 }))
 app.set('view engine', 'hbs')
 
-app.get('/', (req, res) => {
-  res.render('index', { CATEGORY: Object.keys(CATEGORY) })
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true
+}))
+app.use(flash())
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash('success_msg')
+  res.locals.warning_msg = req.flash('warning_msg')
+  res.locals.email = req.flash('email')
+  next()
 })
 
-app.get('/users/create', (req, res) => {
-  res.render('edit', { message: 'new page' })
-})
+app.use(express.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 
-app.get('/users/edit', (req, res) => {
-  res.render('edit', { message: 'edit page' })
-})
+require('./routes')(app)
 
-app.get('/users/login', (req, res) => {
-  res.render('login')
-})
-
-app.get('/users/register', (req, res) => {
-  res.render('register')
-})
-
-app.get('/users/logout', (req, res) => {
-  res.redirect('/users/login')
-})
 app.listen(port, () => {
   console.log(`Express is listening on localhost:${port}`)
 })

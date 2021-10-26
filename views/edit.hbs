@@ -7,7 +7,7 @@
   </div>
 
   {{#if expense}}
-  <form method="POST" action="/users/{{expense._id}}?_method=PUT">
+  <form method="POST" action="/expenses/{{expense._id}}?_method=PUT">
     {{else}}
     <form method="POST" action="/">
       {{/if}}
@@ -30,7 +30,7 @@
       <div class="row align-items-center my-3">
         <label for="category" class="text-center fs-4 col-2 col-form-label">類別*：</label>
         <div class="col-10">
-          <select class="form-select form-select" id="category" required>
+          <select class="form-select form-select" id="category" name="category" required>
             <option {{#if expense}} {{else}}selected{{/if}} disabled value="">Select</option>
             <option {{ifEqual expense.category "家居物業" "selected" "" }} value="家居物業">家居物業</option>
             <option {{ifEqual expense.category "交通出行" "selected" "" }} value="交通出行">交通出行</option>

@@ -23,8 +23,10 @@
         <td width="35%" class="text-start fs-4">家居物業</td>
         <td width="30%" class="text-end fs-4">1000</td>
         <td width="25%" class="text-center fs-4" style="box-shadow: none;">
-          <a class="btn btn-light" href="/">修改</a>
-          <a class="btn btn-light" href="/">刪除</a>
+          <a class="btn btn-light" href="/expenses/1000">修改</a>
+          <form method="POST" action="/expenses/1000?_method=DELETE" style="display: inline">
+            <button type="submit" class="btn btn-light">刪除</button>
+          </form>
         </td>
       </tr>
       <tr>
@@ -32,8 +34,10 @@
         <td width="35%" class="text-start fs-4">交通出行</td>
         <td width="30%" class="text-end fs-4">2000</td>
         <td width="25%" class="text-center fs-4" style="box-shadow: none;">
-          <a class="btn btn-light" href="/">修改</a>
-          <a class="btn btn-light" href="/">刪除</a>
+          <a class="btn btn-light" href="/expenses/2000">修改</a>
+          <form method="POST" action="/expenses/2000?_method=DELETE" style="display: inline">
+            <button type="submit" class="btn btn-light">刪除</button>
+          </form>
         </td>
       </tr>
       <tr>
@@ -41,8 +45,10 @@
         <td width="35%" class="text-start fs-4">休閒娛樂</td>
         <td width="30%" class="text-end fs-4">3000</td>
         <td width="25%" class="text-center fs-4" style="box-shadow: none;">
-          <a class="btn btn-light" href="/">修改</a>
-          <a class="btn btn-light" href="/">刪除</a>
+          <a class="btn btn-light" href="/expenses/3000">修改</a>
+          <form method="POST" action="/expenses/3000?_method=DELETE" style="display: inline">
+            <button type="submit" class="btn btn-light">刪除</button>
+          </form>
         </td>
       </tr>
       <tr>
@@ -50,8 +56,10 @@
         <td width="35%" class="text-start fs-4">餐飲食品</td>
         <td width="30%" class="text-end fs-4">4000</td>
         <td width="25%" class="text-center fs-4" style="box-shadow: none;">
-          <a class="btn btn-light" href="/">修改</a>
-          <a class="btn btn-light" href="/">刪除</a>
+          <a class="btn btn-light" href="/expenses/4000">修改</a>
+          <form method="POST" action="/expenses/4000?_method=DELETE" style="display: inline">
+            <button type="submit" class="btn btn-light">刪除</button>
+          </form>
         </td>
       </tr>
       <tr>
@@ -59,8 +67,10 @@
         <td width="35%" class="text-start fs-4">其他</td>
         <td width="30%" class="text-end fs-4">5000</td>
         <td width="25%" class="text-center fs-4" style="box-shadow: none;">
-          <a class="btn btn-light" href="/">修改</a>
-          <a class="btn btn-light" href="/">刪除</a>
+          <a class="btn btn-light" href="/expenses/5000">修改</a>
+          <form method="POST" action="/expenses/5000?_method=DELETE" style="display: inline">
+            <button type="submit" class="btn btn-light">刪除</button>
+          </form>
         </td>
       </tr>
     </tbody>
@@ -69,6 +79,6 @@
 
 <div class="container">
   <div class="row col-9 my-3">
-    <a class="btn btn-warning btn-lg w-50 m-auto text-light" href="/users/create">新增支出</a>
+    <a class="btn btn-warning btn-lg w-50 m-auto text-light" href="/expenses/create">新增支出</a>
   </div>
 </div>
