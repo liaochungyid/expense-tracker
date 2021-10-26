@@ -1,13 +1,58 @@
-const CATEGORY = {
-  家居物業: '<i class="fas fa-home" >',
-  交通出行: '<i class="fas fa-shuttle-van">',
-  休閒娛樂: '<i class="fas fa-grin-beam">',
-  餐飲食品: '<i class="fas fa-utensils">',
-  其他: '<i class="fas fa-pen">'
-}
+const User = require('../models/userSchema')
+const Record = require('../models/recordSchema')
+const Category = require('../models/categorySchema')
+
+const categories = Object.keys(require('../category.json'))
 
 module.exports = expenseController = {
   getIndex: (req, res) => {
-    res.render('index', { CATEGORY: Object.keys(CATEGORY) })
+    Record
+      .find({ deleteAt: null })
+      .lean()
+      .then((records) => {
+        Promise.all(records
+          .map((item) => {
+            Category
+              .findById(item.categoryId)
+              .lean()
+              .then((category) => { return Object.assign(item, { icon: category.icon }) })
+              .catch(err => console.log(err))
+          }))
+
+        let totalAmount = 0
+        records.forEach(item => totalAmount += item.amount)
+
+        res.render('index', { records, totalAmount, categories })
+      })
+      .catch(err => console.log(err))
+  },
+  getCategory: (req, res) => {
+    const category = req.params.category
+    Category
+      .findOne({ name: category })
+      .lean()
+      .then((category) => {
+        Record
+          .find({ deleteAt: null, categoryId: category._id })
+          .lean()
+          .then((records) => {
+            Promise.all(records
+              .map((item) => {
+                Category
+                  .findById(item.categoryId)
+                  .lean()
+                  .then((category) => { return Object.assign(item, { icon: category.icon }) })
+                  .catch(err => console.log(err))
+              }))
+
+            let totalAmount = 0
+            records.forEach(item => totalAmount += item.amount)
+
+            res.render('index', { records, totalAmount, categories })
+          })
+          .catch(err => console.log(err))
+
+      })
+      .catch(err => console.log(err))
   }
 }

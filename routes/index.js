@@ -4,6 +4,7 @@ const userController = require('../controllers/userController.js')
 
 module.exports = (app) => {
   app.get('/', expenseController.getIndex)
+  app.get('/:category', expenseController.getCategory)
 
   app.get('/users/login', userController.getLogin)
   app.post('/users/login', userController.postLogin)
