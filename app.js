@@ -15,7 +15,13 @@ const CATEGORY = {
 }
 
 
-app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
+app.engine('hbs', exphbs({
+  defaultLayout: 'main', extname: '.hbs', helpers: {
+    ifEqual: function (obj, value, trueString, falseString) {
+      return ((obj === value) ? trueString : falseString)
+    }
+  }
+}))
 app.set('view engine', 'hbs')
 
 app.get('/', (req, res) => {
