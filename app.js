@@ -7,6 +7,7 @@ const flash = require('connect-flash')
 if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
 require('./config/mongoose')
+const passport = require('./config/passport')
 
 const app = express()
 const port = process.env.PORT
@@ -25,8 +26,12 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }))
+app.use(passport.initialize())
+app.use(passport.session())
 app.use(flash())
 app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.isAuthenticated()
+  res.locals.user = req.user
   res.locals.success_msg = req.flash('success_msg')
   res.locals.warning_msg = req.flash('warning_msg')
   res.locals.email = req.flash('email')
@@ -36,7 +41,7 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
-require('./routes')(app)
+require('./routes')(app, passport)
 
 app.listen(port, () => {
   console.log(`Express is listening on localhost:${port}`)

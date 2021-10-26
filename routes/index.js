@@ -2,19 +2,29 @@ const adminController = require('../controllers/adminController.js')
 const expenseController = require('../controllers/expenseController.js')
 const userController = require('../controllers/userController.js')
 
-module.exports = (app) => {
-  app.get('/', expenseController.getIndex)
-  app.get('/:category', expenseController.getCategory)
+module.exports = (app, passport) => {
+  const authenticated = (req, res, next) => {
+    if (req.isAuthenticated()) return next()
+
+    req.flash('warning_msg', '請先登入才能使用！')
+    res.redirect('/users/login')
+  }
+
+  app.get('/', authenticated, expenseController.getIndex)
+  app.get('/:category', authenticated, expenseController.getCategory)
 
   app.get('/users/login', userController.getLogin)
-  app.post('/users/login', userController.postLogin)
+  app.post('/users/login', passport.authenticate('local', {
+    failureRedirect: '/users/login',
+    failureflash: true
+  }), userController.postLogin)
   app.get('/users/register', userController.getRegister)
   app.post('/users/register', userController.postRegister)
   app.get('/users/logout', userController.getLogout)
 
-  app.get('/expenses/create', adminController.getCreate)
-  app.post('/', adminController.postCreate)
-  app.get('/expenses/:id', adminController.getEdit)
-  app.put('/expenses/:id', adminController.putEdit)
-  app.delete('/expenses/:id', adminController.deleteExpense)
+  app.get('/expenses/create', authenticated, adminController.getCreate)
+  app.post('/', authenticated, adminController.postCreate)
+  app.get('/expenses/:id', authenticated, adminController.getEdit)
+  app.put('/expenses/:id', authenticated, adminController.putEdit)
+  app.delete('/expenses/:id', authenticated, adminController.deleteExpense)
 }
