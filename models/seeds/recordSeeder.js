@@ -60,4 +60,4 @@ db.once('open', (err, resp) => {
 
 })
 
-setTimeout(() => mongoose.disconnect(), 3000)
+setTimeout(() => mongoose.disconnect(), 10000)
