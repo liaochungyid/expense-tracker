@@ -22,7 +22,8 @@
       <div class="row align-items-center my-3">
         <label for="date" class="text-center fs-4 col-2 col-form-label">日期*：</label>
         <div class="col-10">
-          <input type="date" name="date" class="form-control" id="date" required value="{{expense.date}}">
+          <input type="date" name="date" class="form-control" id="date" required
+            value="{{expense.year}}-{{expense.month}}-{{expense.day}}">
         </div>
       </div>
 
@@ -42,9 +43,9 @@
       </div>
 
       <div class="row align-items-center my-3">
-        <label for="cost" class="text-center fs-4 col-2 col-form-label">金額*：</label>
+        <label for="amount" class="text-center fs-4 col-2 col-form-label">金額*：</label>
         <div class="col-10">
-          <input type="number" name="cost" class="form-control" id="cost" required value="{{expense.cost}}">
+          <input type="number" name="amount" class="form-control" id="amount" required value="{{expense.amount}}">
         </div>
       </div>
       <div class="row">

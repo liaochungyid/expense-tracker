@@ -7,19 +7,59 @@ module.exports = adminController = {
     res.render('edit')
   },
   postCreate: (req, res) => {
-    console.log(req.body)
-    res.redirect('/')
+    const { name, date, category, amount } = req.body
+    Category
+      .findOne({ name: category })
+      .select('_id')
+      .lean()
+      .then(categoryId => {
+        Record
+          .create({ name, date, amount, userId: req.user._id, categoryId: categoryId._id, })
+          .catch(err => console.log(err))
+      })
+      .then(() => res.redirect('/'))
+      .catch(err => console.log(err))
   },
   getEdit: (req, res) => {
-    console.log(req.params.id)
-    res.render('edit')
+    Record
+      .findOne({ _id: req.params.id, userId: req.user._id })
+      .lean()
+      .then(record => {
+        Category
+          .findById(record.categoryId)
+          .lean()
+          .then(category => {
+            res.render('edit', {
+              expense: Object.assign(record, {
+                category: category.name,
+                year: record.date.getFullYear(),
+                month: record.date.getMonth() + 1,
+                day: record.date.getDate()
+              })
+            })
+          })
+      })
+      .catch(err => console.log(err))
+
   },
   putEdit: (req, res) => {
-    console.log(req.params.id)
-    res.redirect('/')
+    Record
+      .findOne({ _id: req.params.id, userId: req.user._id })
+      .then(record => {
+        record = Object.assign(record, req.body)
+        return record.save()
+      })
+      .then(() => res.redirect('/'))
+      .catch(err => console.log(err))
   },
   deleteExpense: (req, res) => {
-    console.log(req.params.id)
-    res.redirect('/')
+    Record
+      .findOne({ _id: req.params.id, userId: req.user._id })
+      .then(record => {
+        record = Object.assign(record, { deleteAt: Date.now() })
+        return record.save()
+      })
+      .then(() => res.redirect('/'))
+      .catch(err => console.log(err))
   }
 }
