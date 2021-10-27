@@ -27,4 +27,7 @@ module.exports = (app, passport) => {
   app.get('/expenses/:id', authenticated, adminController.getEdit)
   app.put('/expenses/:id', authenticated, adminController.putEdit)
   app.delete('/expenses/:id', authenticated, adminController.deleteExpense)
+
+  app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'public_profile'] }))
+  app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/users/login' }), userController.postLogin)
 }

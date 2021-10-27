@@ -1,5 +1,6 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
+const FackbookStrategy = require('passport-facebook').Strategy
 const User = require('../models/userSchema')
 const bcrypt = require('bcryptjs')
 
@@ -20,6 +21,25 @@ passport.use(new LocalStrategy({
     })
 }))
 
+// 設定facebook登入策略
+passport.use(new FackbookStrategy({
+  clientID: process.env.FACEBOOK_ID,
+  clientSecret: process.env.FACEBOOK_SECRET,
+  callbackURL: process.env.FACEBOOK_CALLBACK,
+  profileFields: ['email', 'displayName']
+}, (accessToken, refreshToken, profile, cb) => {
+  const { name, email } = profile._json
+  User.findOne({ email })
+    .then(user => {
+      if (user) return cb(null, user)
+      const randomPassword = Math.random().toString(36).slice(-8)
+      bcrypt.genSalt(10)
+        .then(salt => bcrypt.hash(randomPassword, salt))
+        .then(hash => User.create({ name, email, password: hash }))
+        .then(user => cb(null, user))
+        .catch(err => console.log(err))
+    })
+}))
 
 passport.serializeUser((user, cb) => {
   cb(null, user.id)
