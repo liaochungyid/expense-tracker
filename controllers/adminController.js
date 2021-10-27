@@ -1,10 +1,11 @@
-const User = require('../models/userSchema')
 const Record = require('../models/recordSchema')
 const Category = require('../models/categorySchema')
 
+const categories = Object.keys(require('../category.json'))
+
 module.exports = adminController = {
   getCreate: (req, res) => {
-    res.render('edit')
+    res.render('edit', { categories })
   },
   postCreate: (req, res) => {
     const { name, date, category, amount } = req.body
@@ -32,10 +33,9 @@ module.exports = adminController = {
             res.render('edit', {
               expense: Object.assign(record, {
                 category: category.name,
-                year: record.date.getFullYear(),
-                month: record.date.getMonth() + 1,
-                day: record.date.getDate()
-              })
+                date: record.date.yyyymmdd('-')
+              }),
+              categories
             })
           })
       })

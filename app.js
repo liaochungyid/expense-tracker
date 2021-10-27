@@ -6,6 +6,7 @@ const flash = require('connect-flash')
 
 if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
+require('./public/javascripts/dateFormat')
 require('./config/mongoose')
 const passport = require('./config/passport')
 

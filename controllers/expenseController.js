@@ -1,4 +1,3 @@
-const User = require('../models/userSchema')
 const Record = require('../models/recordSchema')
 const Category = require('../models/categorySchema')
 
@@ -16,7 +15,7 @@ module.exports = expenseController = {
             Category
               .findById(item.categoryId)
               .lean()
-              .then((category) => { return Object.assign(item, { icon: category.icon }) })
+              .then((category) => { return Object.assign(item, { icon: category.icon, date: item.date.yyyymmdd('/') }) })
               .catch(err => console.log(err))
           }))
 
@@ -43,7 +42,7 @@ module.exports = expenseController = {
                 Category
                   .findById(item.categoryId)
                   .lean()
-                  .then((category) => { return Object.assign(item, { icon: category.icon }) })
+                  .then((category) => { return Object.assign(item, { icon: category.icon, date: item.date.yyyymmdd('/') }) })
                   .catch(err => console.log(err))
               }))
 

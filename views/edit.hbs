@@ -22,8 +22,7 @@
       <div class="row align-items-center my-3">
         <label for="date" class="text-center fs-4 col-2 col-form-label">日期*：</label>
         <div class="col-10">
-          <input type="date" name="date" class="form-control" id="date" required
-            value="{{expense.year}}-{{expense.month}}-{{expense.day}}">
+          <input type="date" name="date" class="form-control" id="date" required value="{{expense.date}}">
         </div>
       </div>
 
@@ -33,11 +32,9 @@
         <div class="col-10">
           <select class="form-select form-select" id="category" name="category" required>
             <option {{#if expense}} {{else}}selected{{/if}} disabled value="">Select</option>
-            <option {{ifEqual expense.category "家居物業" "selected" "" }} value="家居物業">家居物業</option>
-            <option {{ifEqual expense.category "交通出行" "selected" "" }} value="交通出行">交通出行</option>
-            <option {{ifEqual expense.category "休閒娛樂" "selected" "" }} value="休閒娛樂">休閒娛樂</option>
-            <option {{ifEqual expense.category "餐飲食品" "selected" "" }} value="餐飲食品">餐飲食品</option>
-            <option {{ifEqual expense.category "其他" "selected" "" }} value="其他">其他</option>
+            {{#each categories}}
+            <option {{ifEqual ../expense.category this "selected" "" }} value={{this}}>{{this}}</option>
+            {{/each}}
           </select>
         </div>
       </div>

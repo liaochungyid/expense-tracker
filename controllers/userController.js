@@ -1,6 +1,4 @@
 const User = require('../models/userSchema')
-const Record = require('../models/recordSchema')
-const Category = require('../models/categorySchema')
 
 module.exports = userController = {
   getLogin: (req, res) => {
