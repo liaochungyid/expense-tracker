@@ -1,6 +1,7 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const User = require('../models/userSchema')
+const bcrypt = require('bcryptjs')
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
@@ -10,11 +11,15 @@ passport.use(new LocalStrategy({
     .then(user => {
       if (!user) return cb(null, false, req.flash('warning_msg', '此 Email 沒有註冊。'))
 
-      if (user.password === password) return cb(null, user)
-
-      return cb(null, false, req.flash('warning_msg', 'Email 或 密碼 錯誤。'))
+      return bcrypt
+        .compare(password, user.password)
+        .then(isMatch => {
+          if (isMatch) return cb(null, user)
+          return cb(null, false, req.flash('warning_msg', 'Email 或 密碼 錯誤。'))
+        })
     })
 }))
+
 
 passport.serializeUser((user, cb) => {
   cb(null, user.id)

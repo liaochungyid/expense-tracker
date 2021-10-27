@@ -5,6 +5,7 @@ const User = require('../userSchema')
 const Record = require('../recordSchema')
 const Category = require('../categorySchema')
 const db = require('../../config/mongoose')
+const bcrypt = require('bcryptjs')
 
 const USER = {
   name: '廣志的私帳',
@@ -34,21 +35,29 @@ const RECORD = [{
 }]
 
 db.once('open', (err, resp) => {
-  User
-    .create(USER)
-    .then((user) => {
-      return Category
-        .find()
-        .lean()
-        .then((categories) => {
-          Promise.all(categories.map(async (item, index) => {
-            return await Record
-              .create(Object.assign(RECORD[index], {
-                date: Date.now(), userId: user._id, categoryId: item._id
+  bcrypt
+    .genSalt(Number(process.env.SALT_NUMBER))
+    .then(salt => bcrypt.hash(USER.password, salt))
+    .then(hash => {
+      User
+        .create(Object.assign(USER, { password: hash }))
+        .then((user) => {
+          return Category
+            .find()
+            .lean()
+            .then((categories) => {
+              Promise.all(categories.map(async (item, index) => {
+                return await Record
+                  .create(Object.assign(RECORD[index], {
+                    date: Date.now(),
+                    userId: user._id,
+                    categoryId: item._id
+                  }))
               }))
-          }))
+            })
         })
     })
+
 })
 
 setTimeout(() => mongoose.disconnect(), 3000)

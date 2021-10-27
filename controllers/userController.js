@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs')
 const User = require('../models/userSchema')
 
 module.exports = userController = {
@@ -33,12 +34,18 @@ module.exports = userController = {
           return res.redirect('/users/register')
         }
 
-        return User
-          .create({ name, email, password })
-          .then(() => {
-            req.flash('success_msg', '成功完成註冊。')
-            res.redirect('/users/login')
+        return bcrypt
+          .genSalt(Number(process.env.SALT_NUMBER))
+          .then(salt => bcrypt.hash(password, salt))
+          .then(hash => {
+            User
+              .create({ name, email, password: hash })
+              .then(() => {
+                req.flash('success_msg', '成功完成註冊。')
+                res.redirect('/users/login')
+              })
           })
+
 
       })
       .catch(err => console.log(err))
