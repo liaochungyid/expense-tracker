@@ -16,7 +16,9 @@
   <nav class="navbar navbar-light bg-light">
     <div class="container">
       <a class="navbar-brand fw-bold fs-1" href="/">家庭記帳本</a>
+      {{#if isAuthenticated}}
       <a class="btn btn-outline-dark btn-lg text-warning bg-white" href="/users/logout">登出</a>
+      {{/if}}
     </div>
   </nav>
   <div class="container col-sm-10 col-md-8 col-xxl-6">

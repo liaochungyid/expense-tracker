@@ -1,3 +1,7 @@
+const User = require('../models/userSchema')
+const Record = require('../models/recordSchema')
+const Category = require('../models/categorySchema')
+
 module.exports = userController = {
   getLogin: (req, res) => {
     res.render('login')
@@ -16,10 +20,29 @@ module.exports = userController = {
   postRegister: (req, res) => {
     const { name, email, password, confirmPassword } = req.body
 
-    console.log(req.body)
+    User.findOne({ email })
+      .then(user => {
+        req.flash('name', name)
+        req.flash('email', email)
 
-    req.flash('註冊成功！')
-    req.flash('email', email)
-    res.redirect('/users/login')
+        if (user) {
+          req.flash('warning_msg', '這個Email已經註冊過了。')
+          return res.redirect('/users/register')
+        }
+
+        if (password !== confirmPassword) {
+          req.flash('warning_msg', '兩次密碼不相同。')
+          return res.redirect('/users/register')
+        }
+
+        return User
+          .create({ name, email, password })
+          .then(() => {
+            req.flash('success_msg', '成功完成註冊。')
+            res.redirect('/users/login')
+          })
+
+      })
+      .catch(err => console.log(err))
   }
 }

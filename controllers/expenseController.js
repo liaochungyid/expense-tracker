@@ -7,8 +7,9 @@ const categories = Object.keys(require('../category.json'))
 module.exports = expenseController = {
   getIndex: (req, res) => {
     Record
-      .find({ deleteAt: null })
+      .find({ userId: req.user._id, deleteAt: null })
       .lean()
+      .sort({ date: 'desc' })
       .then((records) => {
         Promise.all(records
           .map((item) => {
@@ -31,9 +32,10 @@ module.exports = expenseController = {
     Category
       .findOne({ name: category })
       .lean()
+      .sort({ date: 'desc' })
       .then((category) => {
         Record
-          .find({ deleteAt: null, categoryId: category._id })
+          .find({ userId: req.user._id, deleteAt: null, categoryId: category._id })
           .lean()
           .then((records) => {
             Promise.all(records

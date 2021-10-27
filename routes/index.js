@@ -11,7 +11,7 @@ module.exports = (app, passport) => {
   }
 
   app.get('/', authenticated, expenseController.getIndex)
-  app.get('/:category', authenticated, expenseController.getCategory)
+  app.get('/index/:category', authenticated, expenseController.getCategory)
 
   app.get('/users/login', userController.getLogin)
   app.post('/users/login', passport.authenticate('local', {
