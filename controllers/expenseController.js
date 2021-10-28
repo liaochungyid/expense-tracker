@@ -26,6 +26,39 @@ module.exports = expenseController = {
       })
       .catch(err => console.log(err))
   },
+  getDeleted: async (req, res) => {
+    await Record
+      .find({ userId: req.user._id, deleteAt: { $ne: null } })
+      .lean()
+      .sort({ deleteAt: 'desc' })
+      .then((records) => {
+        let totalAmount = 0
+        let warning_msg
+        if (records.length) {
+          warning_msg = '刪除列表中，再次刪除會移除資料庫資料，請小心操作。'
+
+          records.forEach(item => totalAmount += item.amount)
+
+          Promise.all(records
+            .map((item) => {
+              Category
+                .findById(item.categoryId)
+                .lean()
+                .then((category) => {
+                  return Object.assign(item, {
+                    icon: category.icon,
+                    date: item.date.yyyymmdd('/')
+                  })
+                })
+                .catch(err => console.log(err))
+            }))
+        } else {
+          warning_msg = '無刪除項目。'
+        }
+        res.render('index', { records, totalAmount, categories, warning_msg })
+      })
+      .catch(err => console.log(err))
+  },
   getCategory: (req, res) => {
     const category = req.params.category
     Category

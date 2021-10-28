@@ -11,6 +11,7 @@ module.exports = (app, passport) => {
   }
 
   app.get('/', authenticated, expenseController.getIndex)
+  app.get('/index/deleteAt', authenticated, expenseController.getDeleted)
   app.get('/index/:category', authenticated, expenseController.getCategory)
 
   app.get('/users/login', userController.getLogin)

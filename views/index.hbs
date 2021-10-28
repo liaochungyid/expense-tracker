@@ -7,9 +7,10 @@
     {{#each categories}}
     <li><a class="dropdown-item" href="/index/{{this}}">{{this}}</a></li>
     {{/each}}
+    <li><a class="dropdown-item" href="/index/deleteAt">刪除項目</a></li>
   </ul>
 </div>
-
+{{> message}}
 <div class="container col-12">
   <div class="row">
     <span class="d-inline col-3 fs-3">總金額：</span>
@@ -27,7 +28,7 @@
         </td>
         <td width="30%" class="text-end fs-4">{{this.amount}}</td>
         <td width="25%" class="text-center fs-4" style="box-shadow: none;">
-          <a class="btn btn-light" href="/expenses/{{this._id}}">修改</a>
+          <a class="btn btn-light" href="/expenses/{{this._id}}">{{#if this.deleteAt}}復原{{else}}修改{{/if}}</a>
           <form method="POST" action="/expenses/{{this._id}}?_method=DELETE" style="display: inline">
             <button type="submit" class="btn btn-light">刪除</button>
           </form>

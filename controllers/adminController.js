@@ -56,10 +56,15 @@ module.exports = adminController = {
     Record
       .findOne({ _id: req.params.id, userId: req.user._id })
       .then(record => {
-        record = Object.assign(record, { deleteAt: Date.now() })
-        return record.save()
+        if (record.deleteAt) {
+          record.remove()
+          return res.redirect('/index/deleteAt')
+        } else {
+          record = Object.assign(record, { deleteAt: Date.now() })
+          record.save()
+          res.redirect('/')
+        }
       })
-      .then(() => res.redirect('/'))
       .catch(err => console.log(err))
   }
 }

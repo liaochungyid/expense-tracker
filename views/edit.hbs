@@ -14,8 +14,8 @@
       <div class="row align-items-center my-3">
         <label for="name" class="text-center fs-4 col-2 col-form-label">名稱*：</label>
         <div class="col-10">
-          <input type="text" name="name" class="form-control" id="name" placeholder="消費支出名稱" required autofocus
-            value="{{expense.name}}">
+          <input type="text" name="name" class="form-control" id="name" placeholder="消費支出名稱" maxlength="8" required
+            autofocus value="{{expense.name}}">
         </div>
       </div>
 
@@ -42,9 +42,14 @@
       <div class="row align-items-center my-3">
         <label for="amount" class="text-center fs-4 col-2 col-form-label">金額*：</label>
         <div class="col-10">
-          <input type="number" name="amount" class="form-control" id="amount" required value="{{expense.amount}}">
+          <input type="number" name="amount" class="form-control" id="amount" min="0" max="999999" required
+            value="{{expense.amount}}">
         </div>
       </div>
+
+      {{!-- set deleteAt always null --}}
+      <input type="text" name="deleteAt" class="d-none">
+
       <div class="row">
         <div class="text-center col-2">
           <a href="/">
@@ -53,7 +58,12 @@
         </div>
         <div class="text-center col-10">
           {{#if expense}}
-          <button class="d-inline btn btn-warning text-light btn-lg ms-3" type="submit">送出</button>
+          <button class="d-inline btn btn-warning text-light btn-lg ms-3" type="submit">
+            {{#if expense.deleteAt}}
+            復原
+            {{else}}
+            送出
+            {{/if}}</button>
           {{else}}
           <button class="d-inline btn btn-warning text-light btn-lg ms-3" type="submit">新增支出</button>
           {{/if}}
